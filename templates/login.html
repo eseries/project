@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom focus styles */
+        input:focus {
+            outline: none;
+            ring: 2px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+    <div class="w-full max-w-md">
+        <div class="bg-white shadow-xl rounded-lg overflow-hidden">
+            <header class="bg-gradient-to-r from-blue-600 to-blue-500 text-white p-6 text-center">
+                <h1 class="text-2xl font-bold">Welcome Back</h1>
+                <p class="text-blue-100 mt-1">Please enter your credentials</p>
+            </header>
+            
+            <form id="loginForm" class="p-6 space-y-6">
+                <div id="errorMessage" class="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 hidden" role="alert">
+                    <p id="errorText"></p>
+                </div>
+                
+                <div class="space-y-2">
+                    <label for="username" class="block text-sm font-medium text-gray-700">Username or Email</label>
+                    <div class="relative">
+                        <input 
+                            type="text" 
+                            id="username" 
+                            name="username"
+                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-4 py-3 border"
+                            placeholder="john.doe@example.com"
+                            autocomplete="username"
+                            aria-describedby="usernameHelp"
+                            required
+                        >
+                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none hidden" id="usernameErrorIcon">
+                            <svg class="h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                    </div>
+                    <p id="usernameHelp" class="text-xs text-gray-500">Enter your registered username or email</p>
+                </div>
+                
+                <div class="space-y-2">
+                    <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                    <div class="relative">
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password"
+                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-4 py-3 border"
+                            placeholder="••••••••"
+                            autocomplete="current-password"
+                            minlength="6"
+                            required
+                        >
+                        <button type="button" class="absolute inset-y-0 right-0 flex items-center pr-3" id="togglePassword">
+                            <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                        <label for="remember-me" class="ml-2 block text-sm text-gray-700">Remember me</label>
+                    </div>
+                    
+                    <div class="text-sm">
+                        <a href="#" class="font-medium text-blue-600 hover:text-blue-500">Forgot password?</a>
+                    </div>
+                </div>
+                
+                <div>
+                    <button 
+                        type="submit" 
+                        id="submitButton"
+                        class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+                    >
+                        <span id="buttonText">Login </span>
+                        <svg id="spinner" class="hidden -ml-1 mr-3 h-5 w-5 text-white animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </form>
+            
+            <div class="px-6 pb-6 text-center">
+                <p class="text-sm text-gray-600">
+                    Don't have an account? 
+                    <a href="register.html" class="font-medium text-blue-600 hover:text-blue-500">Register now</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginForm = document.getElementById('loginForm');
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+            const togglePassword = document.getElementById('togglePassword');
+            const errorMessage = document.getElementById('errorMessage');
+            const errorText = document.getElementById('errorText');
+            const submitButton = document.getElementById('submitButton');
+            const buttonText = document.getElementById('buttonText');
+            const spinner = document.getElementById('spinner');
+            const usernameErrorIcon = document.getElementById('usernameErrorIcon');
+
+            // Toggle password visibility
+            togglePassword.addEventListener('click', () => {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                
+                // Update the eye icon
+                togglePassword.innerHTML = type === 'password' 
+                    ? '<svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>'
+                    : '<svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" /></svg>';
+            });
+
+            // Form validation
+            usernameInput.addEventListener('input', () => {
+                if (usernameInput.validity.valid) {
+                    usernameErrorIcon.classList.add('hidden');
+                }
+            });
+
+            // Form submission
+            loginForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                // Reset error state
+                errorMessage.classList.add('hidden');
+                usernameErrorIcon.classList.add('hidden');
+                
+                // Validate inputs
+                if (!usernameInput.value.trim()) {
+                    showError('Username is required');
+                    usernameErrorIcon.classList.remove('hidden');
+                    usernameInput.focus();
+                    return;
+                }
+                
+                if (!passwordInput.value) {
+                    showError('Password is required');
+                    passwordInput.focus();
+                    return;
+                }
+                
+                if (passwordInput.value.length < 6) {
+                    showError('Password must be at least 6 characters');
+                    passwordInput.focus();
+                    return;
+                }
+                
+                // Show loading state
+                submitButton.disabled = true;
+                buttonText.textContent = 'Signing in...';
+                spinner.classList.remove('hidden');
+                
+                // Simulate API call
+                try {
+                    await simulateLogin(usernameInput.value.trim(), passwordInput.value);
+                    
+                    // On success - in a real app, you would redirect
+                    console.log('Login successful!');
+                    alert('Login successful! Redirecting to dashboard...');
+                    // window.location.href = '/dashboard';
+                    
+                } catch (error) {
+                    showError(error.message);
+                    
+                    if (error.field === 'username') {
+                        usernameErrorIcon.classList.remove('hidden');
+                        usernameInput.focus();
+                    } else {
+                        passwordInput.focus();
+                    }
+                } finally {
+                    // Reset button state
+                    submitButton.disabled = false;
+                    buttonText.textContent = 'Sign in';
+                    spinner.classList.add('hidden');
+                }
+            });
+            
+            function showError(message) {
+                errorText.textContent = message;
+                errorMessage.classList.remove('hidden');
+                
+                // Scroll to error message
+                errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            
+            // Simulate API call with delay
+            function simulateLogin(username, password) {
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        // Mock validation - in a real app, this would be an API call
+                        const validCredentials = [
+                            { username: 'admin', password: 'admin123' },
+                            { username: 'user@example.com', password: 'password123' }
+                        ];
+                        
+                        const isValid = validCredentials.some(
+                            cred => (cred.username === username || cred.email === username) && cred.password === password
+                        );
+                        
+                        if (isValid) {
+                            resolve({ success: true });
+                        } else {
+                            if (username === 'admin' || username === 'user@example.com') {
+                                reject({ 
+                                    message: 'Incorrect password', 
+                                    field: 'password' 
+                                });
+                            } else {
+                                reject({ 
+                                    message: 'Username not found', 
+                                    field: 'username' 
+                                });
+                            }
+                        }
+                    }, 1500);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

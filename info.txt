@@ -1,0 +1,31 @@
+
+1. **Personal Details**  
+   - Full Name  
+   - Age / Date of Birth  
+   - Gender (if relevant)  
+   - Contact Information (Email, Phone)  
+   - Location (City, Country)  
+
+2. **Education & Qualifications**  
+   - Highest Education Level (Degree, Institution, Year)  
+   - Certifications / Licenses (if any)  
+   - Relevant Courses or Training  
+
+3. **Work Experience**  
+   - Current & Previous Job Roles  
+   - Years of Experience  
+   - Key Responsibilities & Achievements  
+
+4. **Skills & Competencies**  
+   - Technical Skills (e.g., Programming, Data Analysis)  
+   - Soft Skills (e.g., Leadership, Communication)  
+   - Languages Spoken  
+
+5. **Career Interests & Goals**  
+   - Desired Industry / Job Role  
+   - Short-term & Long-term Career Objectives  
+   - Willingness to Relocate / Work Remotely  
+
+6. **Additional Information (Optional)**  
+   - LinkedIn / Portfolio Link  
+   - References (if applicable)  

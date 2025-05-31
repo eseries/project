@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Form</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Custom styles for better mobile experience */
+        @media (max-width: 640px) {
+            .step-text {
+                display: none;
+            }
+            .step .absolute {
+                display: none;
+            }
+            .step {
+                min-width: 30px;
+            }
+            .gender-options {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            .gender-options label {
+                margin-right: 0;
+            }
+            .skill-input-group {
+                flex-direction: column;
+            }
+            .skill-input-group input {
+                border-radius: 0.375rem !important;
+                margin-bottom: 0.5rem;
+            }
+            .skill-input-group button {
+                border-radius: 0.375rem !important;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-2 sm:px-4 py-4 sm:py-8 max-w-4xl">
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <!-- Form Header -->
+            <div class="bg-blue-600 text-white px-4 sm:px-6 py-3 sm:py-4">
+                <h1 class="text-xl sm:text-2xl font-bold">Profile Information</h1>
+                <p class="text-blue-100 text-sm">Please fill in your details</p>
+            </div>
+            
+            <!-- Progress Steps - Simplified for mobile -->
+            <div class="px-2 sm:px-6 py-3 sm:py-4 border-b">
+                <div class="flex justify-between items-center">
+                    <div class="step flex flex-col items-center relative" data-step="1">
+                        <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mb-1 z-10 text-sm sm:text-base">1</div>
+                        <span class="text-xs sm:text-sm text-gray-600 step-text">Personal</span>
+                        <div class="absolute h-1 w-full bg-gray-200 top-4 sm:top-5 -z-1 left-1/2"></div>
+                    </div>
+                    <div class="step flex flex-col items-center relative" data-step="2">
+                        <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-bold mb-1 z-10 text-sm sm:text-base">2</div>
+                        <span class="text-xs sm:text-sm text-gray-600 step-text">Education</span>
+                        <div class="absolute h-1 w-full bg-gray-200 top-4 sm:top-5 -z-1 left-1/2"></div>
+                    </div>
+                    <div class="step flex flex-col items-center relative" data-step="3">
+                        <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-bold mb-1 z-10 text-sm sm:text-base">3</div>
+                        <span class="text-xs sm:text-sm text-gray-600 step-text">Experience</span>
+                        <div class="absolute h-1 w-full bg-gray-200 top-4 sm:top-5 -z-1 left-1/2"></div>
+                    </div>
+                    <div class="step flex flex-col items-center relative" data-step="4">
+                        <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-bold mb-1 z-10 text-sm sm:text-base">4</div>
+                        <span class="text-xs sm:text-sm text-gray-600 step-text">Skills</span>
+                        <div class="absolute h-1 w-full bg-gray-200 top-4 sm:top-5 -z-1 left-1/2"></div>
+                    </div>
+                    <div class="step flex flex-col items-center relative" data-step="5">
+                        <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-bold mb-1 z-10 text-sm sm:text-base">5</div>
+                        <span class="text-xs sm:text-sm text-gray-600 step-text">Goals</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Form Sections -->
+            <form id="profileForm" class="p-3 sm:p-6">
+                <!-- Section 1: Personal Details -->
+                <div class="form-section" data-section="1">
+                    <h2 class="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-gray-800 border-b pb-2">Personal Details</h2>
+                    
+                    <div class="grid grid-cols-1 gap-4 sm:gap-6">
+                        <!-- Full Name -->
+                        <div>
+                            <label for="fullName" class="block text-sm font-medium text-gray-700 mb-1">Full Name*</label>
+                            <input type="text" id="fullName" name="fullName" required
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <p class="text-red-500 text-xs mt-1 hidden">Please enter your full name</p>
+                        </div>
+                        
+                        <!-- Date of Birth -->
+                        <div>
+                            <label for="dob" class="block text-sm font-medium text-gray-700 mb-1">Date of Birth*</label>
+                            <input type="date" id="dob" name="dob" required
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <p class="text-red-500 text-xs mt-1 hidden">Please enter your date of birth</p>
+                        </div>
+                        
+                        <!-- Gender -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+                            <div class="flex flex-wrap gap-2 sm:gap-4 gender-options">
+                                <label class="inline-flex items-center">
+                                    <input type="radio" name="gender" value="male" class="h-4 w-4 text-blue-600">
+                                    <span class="ml-2 text-gray-700">Male</span>
+                                </label>
+                                <label class="inline-flex items-center">
+                                    <input type="radio" name="gender" value="female" class="h-4 w-4 text-blue-600">
+                                    <span class="ml-2 text-gray-700">Female</span>
+                                </label>
+                                <label class="inline-flex items-center">
+                                    <input type="radio" name="gender" value="other" class="h-4 w-4 text-blue-600">
+                                    <span class="ml-2 text-gray-700">Other</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Email -->
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email*</label>
+                            <input type="email" id="email" name="email" required
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <p class="text-red-500 text-xs mt-1 hidden">Please enter a valid email</p>
+                        </div>
+                        
+                        <!-- Phone -->
+                        <div>
+                            <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                            <input type="tel" id="phone" name="phone"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        
+                        <!-- City -->
+                        <div>
+                            <label for="city" class="block text-sm font-medium text-gray-700 mb-1">City</label>
+                            <input type="text" id="city" name="city"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        
+                        <!-- Country -->
+                        <div>
+                            <label for="country" class="block text-sm font-medium text-gray-700 mb-1">Country</label>
+                            <select id="country" name="country"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="">Select Country</option>
+                                <option value="NG">Nigeria</option>
+                                <option value="US">United States</option>
+                                <option value="UK">United Kingdom</option>
+                                <option value="CA">Canada</option>
+                                <option value="AU">Australia</option>
+                                <option value="IN">India</option>
+                                <option value="DE">Germany</option>
+                                <option value="FR">France</option>
+                                <option value="JP">Japan</option>
+                                <option value="BR">Brazil</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Section 2: Education & Qualifications -->
+                <div class="form-section hidden" data-section="2">
+                    <h2 class="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-gray-800 border-b pb-2">Education & Qualifications</h2>
+                    
+                    <div id="educationContainer">
+                        <!-- Education entry template -->
+                        <div class="education-entry mb-4 sm:mb-6 p-3 sm:p-4 border border-gray-200 rounded-lg">
+                            <div class="grid grid-cols-1 gap-4 sm:gap-6">
+                                <div>
+                                    <label for="institution" class="block text-sm font-medium text-gray-700 mb-1">Institution*</label>
+                                    <input type="text" name="institution[]" required
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <div>
+                                    <label for="degree" class="block text-sm font-medium text-gray-700 mb-1">Degree/Certificate*</label>
+                                    <input type="text" name="degree[]" required
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <div>
+                                    <label for="fieldOfStudy" class="block text-sm font-medium text-gray-700 mb-1">Field of Study</label>
+                                    <input type="text" name="fieldOfStudy[]"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <div>
+                                    <label for="educationYear" class="block text-sm font-medium text-gray-700 mb-1">Year Completed</label>
+                                    <input type="number" name="educationYear[]" min="1900" max="2099"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <label for="educationDescription" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                                <textarea name="educationDescription[]" rows="2"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="button" id="addEducation" class="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 text-sm sm:text-base">
+                        <i class="fas fa-plus mr-2"></i>Add Another Education
+                    </button>
+                </div>
+                
+                <!-- Section 3: Work Experience -->
+                <div class="form-section hidden" data-section="3">
+                    <h2 class="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-gray-800 border-b pb-2">Work Experience</h2>
+                    
+                    <div id="experienceContainer">
+                        <!-- Experience entry template -->
+                        <div class="experience-entry mb-4 sm:mb-6 p-3 sm:p-4 border border-gray-200 rounded-lg">
+                            <div class="grid grid-cols-1 gap-4 sm:gap-6">
+                                <div>
+                                    <label for="company" class="block text-sm font-medium text-gray-700 mb-1">Company*</label>
+                                    <input type="text" name="company[]" required
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <div>
+                                    <label for="position" class="block text-sm font-medium text-gray-700 mb-1">Position*</label>
+                                    <input type="text" name="position[]" required
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <div>
+                                    <label for="startDate" class="block text-sm font-medium text-gray-700 mb-1">Start Date*</label>
+                                    <input type="date" name="startDate[]" required
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <div>
+                                    <label for="endDate" class="block text-sm font-medium text-gray-700 mb-1">End Date</label>
+                                    <input type="date" name="endDate[]"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <label class="inline-flex items-center mt-2">
+                                        <input type="checkbox" name="currentJob[]" class="h-4 w-4 text-blue-600">
+                                        <span class="ml-2 text-gray-700">I currently work here</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <label for="jobDescription" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                                <textarea name="jobDescription[]" rows="3"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="button" id="addExperience" class="mt-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 text-sm sm:text-base">
+                        <i class="fas fa-plus mr-2"></i>Add Another Experience
+                    </button>
+                </div>
+                
+                <!-- Section 4: Skills & Competencies -->
+                <div class="form-section hidden" data-section="4">
+                    <h2 class="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-gray-800 border-b pb-2">Skills & Competencies</h2>
+                    
+                    <div class="mb-4 sm:mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Technical Skills</label>
+                        <div id="technicalSkillsContainer" class="flex flex-wrap gap-2">
+                            <!-- Skill tags will be added here -->
+                        </div>
+                        <div class="flex flex-col sm:flex-row mt-2 skill-input-group">
+                            <input type="text" id="technicalSkillInput" placeholder="Add a technical skill"
+                                class="flex-1 px-3 py-2 border border-gray-300 rounded-t-md sm:rounded-l-md sm:rounded-tr-none focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <button type="button" id="addTechnicalSkill" class="px-4 py-2 bg-blue-600 text-white rounded-b-md sm:rounded-r-md sm:rounded-l-none hover:bg-blue-700">
+                                Add
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4 sm:mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Soft Skills</label>
+                        <div id="softSkillsContainer" class="flex flex-wrap gap-2">
+                            <!-- Skill tags will be added here -->
+                        </div>
+                        <div class="flex flex-col sm:flex-row mt-2 skill-input-group">
+                            <input type="text" id="softSkillInput" placeholder="Add a soft skill"
+                                class="flex-1 px-3 py-2 border border-gray-300 rounded-t-md sm:rounded-l-md sm:rounded-tr-none focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <button type="button" id="addSoftSkill" class="px-4 py-2 bg-blue-600 text-white rounded-b-md sm:rounded-r-md sm:rounded-l-none hover:bg-blue-700">
+                                Add
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label for="languages" class="block text-sm font-medium text-gray-700 mb-2">Languages</label>
+                        <div id="languagesContainer" class="flex flex-wrap gap-2">
+                            <!-- Language tags will be added here -->
+                        </div>
+                        <div class="flex flex-col sm:flex-row mt-2 skill-input-group">
+                            <input type="text" id="languageInput" placeholder="Add a language"
+                                class="flex-1 px-3 py-2 border border-gray-300 rounded-t-md sm:rounded-l-md sm:rounded-tr-none focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <button type="button" id="addLanguage" class="px-4 py-2 bg-blue-600 text-white rounded-b-md sm:rounded-r-md sm:rounded-l-none hover:bg-blue-700">
+                                Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Section 5: Career Interests & Goals -->
+                <div class="form-section hidden" data-section="5">
+                    <h2 class="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-gray-800 border-b pb-2">Career Interests & Goals</h2>
+                    
+                    <div class="mb-4 sm:mb-6">
+                        <label for="careerGoals" class="block text-sm font-medium text-gray-700 mb-1">Career Goals*</label>
+                        <textarea id="careerGoals" name="careerGoals" rows="4" required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            placeholder="Describe your short-term and long-term career goals"></textarea>
+                        <p class="text-red-500 text-xs mt-1 hidden">Please describe your career goals</p>
+                    </div>
+                    
+                    <div class="mb-4 sm:mb-6">
+                        <label for="desiredRoles" class="block text-sm font-medium text-gray-700 mb-1">Desired Roles</label>
+                        <input type="text" id="desiredRoles" name="desiredRoles"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            placeholder="E.g. Software Developer, Project Manager, etc.">
+                    </div>
+                    
+                    <div class="mb-4 sm:mb-6">
+                        <label for="preferredIndustries" class="block text-sm font-medium text-gray-700 mb-1">Preferred Industries</label>
+                        <input type="text" id="preferredIndustries" name="preferredIndustries"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            placeholder="E.g. Technology, Healthcare, Finance, etc.">
+                    </div>
+                    
+                    <div class="mb-4 sm:mb-6">
+                        <label for="relocation" class="block text-sm font-medium text-gray-700 mb-1">Willing to Relocate?</label>
+                        <select id="relocation" name="relocation"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="yes">Yes, willing to relocate</option>
+                            <option value="no">No, not willing to relocate</option>
+                            <option value="maybe">Maybe, depending on opportunity</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label for="additionalInfo" class="block text-sm font-medium text-gray-700 mb-1">Additional Information</label>
+                        <textarea id="additionalInfo" name="additionalInfo" rows="4"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            placeholder="Any other information you'd like to share"></textarea>
+                    </div>
+                </div>
+                
+                <!-- Navigation Buttons -->
+                <div class="flex justify-between mt-6 sm:mt-8">
+                    <button type="button" id="prevBtn" class="px-4 sm:px-6 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 hidden text-sm sm:text-base">
+                        <i class="fas fa-arrow-left mr-2"></i>Previous
+                    </button>
+                    <button type="button" id="nextBtn" class="ml-auto px-4 sm:px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm sm:text-base">
+                        Next<i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                    <button type="submit" id="submitBtn" class="px-4 sm:px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 hidden text-sm sm:text-base">
+                        <i class="fas fa-check mr-2"></i>Submit
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Form navigation
+            const formSections = document.querySelectorAll('.form-section');
+            const steps = document.querySelectorAll('.step');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const submitBtn = document.getElementById('submitBtn');
+            let currentSection = 0;
+            
+            // Show the first section initially
+            showSection(currentSection);
+            
+            // Next button click handler
+            nextBtn.addEventListener('click', function() {
+                if (validateSection(currentSection)) {
+                    currentSection++;
+                    showSection(currentSection);
+                    // Scroll to top of form on mobile
+                    if (window.innerWidth < 640) {
+                        window.scrollTo({top: 0, behavior: 'smooth'});
+                    }
+                }
+            });
+            
+            // Previous button click handler
+            prevBtn.addEventListener('click', function() {
+                currentSection--;
+                showSection(currentSection);
+                // Scroll to top of form on mobile
+                if (window.innerWidth < 640) {
+                    window.scrollTo({top: 0, behavior: 'smooth'});
+                }
+            });
+            
+            // Show the appropriate section and update navigation buttons
+            function showSection(index) {
+                formSections.forEach((section, i) => {
+                    section.classList.toggle('hidden', i !== index);
+                });
+                
+                // Update step indicators
+                steps.forEach((step, i) => {
+                    const stepNumber = step.querySelector('div');
+                    if (i < index) {
+                        stepNumber.classList.remove('bg-gray-200', 'text-gray-600');
+                        stepNumber.classList.add('bg-green-500', 'text-white');
+                    } else if (i === index) {
+                        stepNumber.classList.remove('bg-gray-200', 'text-gray-600', 'bg-green-500');
+                        stepNumber.classList.add('bg-blue-600', 'text-white');
+                    } else {
+                        stepNumber.classList.remove('bg-blue-600', 'bg-green-500', 'text-white');
+                        stepNumber.classList.add('bg-gray-200', 'text-gray-600');
+                    }
+                });
+                
+                // Show/hide navigation buttons
+                prevBtn.classList.toggle('hidden', index === 0);
+                nextBtn.classList.toggle('hidden', index === formSections.length - 1);
+                submitBtn.classList.toggle('hidden', index !== formSections.length - 1);
+            }
+            
+            // Validate the current section before proceeding
+            function validateSection(index) {
+                let isValid = true;
+                const currentSection = formSections[index];
+                const requiredInputs = currentSection.querySelectorAll('[required]');
+                
+                requiredInputs.forEach(input => {
+                    if (!input.value.trim()) {
+                        isValid = false;
+                        input.classList.add('border-red-500');
+                        const errorMsg = input.nextElementSibling;
+                        if (errorMsg && errorMsg.classList.contains('hidden')) {
+                            errorMsg.classList.remove('hidden');
+                        }
+                    } else {
+                        input.classList.remove('border-red-500');
+                        const errorMsg = input.nextElementSibling;
+                        if (errorMsg && !errorMsg.classList.contains('hidden')) {
+                            errorMsg.classList.add('hidden');
+                        }
+                    }
+                });
+                
+                // Special validation for email
+                if (index === 0) {
+                    const emailInput = document.getElementById('email');
+                    if (emailInput && !validateEmail(emailInput.value)) {
+                        isValid = false;
+                        emailInput.classList.add('border-red-500');
+                        const errorMsg = emailInput.nextElementSibling;
+                        if (errorMsg) errorMsg.classList.remove('hidden');
+                    }
+                }
+                
+                return isValid;
+            }
+            
+            // Email validation helper
+            function validateEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(email);
+            }
+            
+            // Form submission
+            document.getElementById('profileForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                if (validateSection(currentSection)) {
+                    // Here you would typically send the form data to a server
+                    alert('Form submitted successfully!');
+                    console.log('Form data:', getFormData());
+                    // You can redirect or show a success message here
+                }
+            });
+            
+            // Helper function to get all form data
+            function getFormData() {
+                const formData = {};
+                const form = document.getElementById('profileForm');
+                
+                // Get simple input values
+                form.querySelectorAll('input, select, textarea').forEach(input => {
+                    if (input.name && !input.name.includes('[]')) {
+                        if (input.type === 'checkbox') {
+                            formData[input.name] = input.checked;
+                        } else {
+                            formData[input.name] = input.value;
+                        }
+                    }
+                });
+                
+                // Get array values (education, experience)
+                formData.education = [];
+                document.querySelectorAll('.education-entry').forEach((entry, index) => {
+                    const education = {};
+                    entry.querySelectorAll('[name^="education"]').forEach(input => {
+                        const fieldName = input.name.replace('[]', '');
+                        education[fieldName] = input.value;
+                    });
+                    formData.education.push(education);
+                });
+                
+                formData.experience = [];
+                document.querySelectorAll('.experience-entry').forEach((entry, index) => {
+                    const experience = {};
+                    entry.querySelectorAll('[name^="experience"]').forEach(input => {
+                        const fieldName = input.name.replace('[]', '');
+                        if (input.type === 'checkbox') {
+                            experience[fieldName] = input.checked;
+                        } else {
+                            experience[fieldName] = input.value;
+                        }
+                    });
+                    formData.experience.push(experience);
+                });
+                
+                // Get skills and languages
+                formData.technicalSkills = Array.from(document.querySelectorAll('#technicalSkillsContainer .skill-tag')).map(tag => tag.textContent.trim());
+                formData.softSkills = Array.from(document.querySelectorAll('#softSkillsContainer .skill-tag')).map(tag => tag.textContent.trim());
+                formData.languages = Array.from(document.querySelectorAll('#languagesContainer .language-tag')).map(tag => tag.textContent.trim());
+                
+                return formData;
+            }
+            
+            // Add education entry
+            document.getElementById('addEducation').addEventListener('click', function() {
+                const container = document.getElementById('educationContainer');
+                const template = container.querySelector('.education-entry').cloneNode(true);
+                
+                // Clear input values in the new entry
+                template.querySelectorAll('input, textarea').forEach(input => {
+                    input.value = '';
+                });
+                
+                container.appendChild(template);
+                
+                // Scroll to the new entry on mobile
+                if (window.innerWidth < 640) {
+                    template.scrollIntoView({behavior: 'smooth'});
+                }
+            });
+            
+            // Add experience entry
+            document.getElementById('addExperience').addEventListener('click', function() {
+                const container = document.getElementById('experienceContainer');
+                const template = container.querySelector('.experience-entry').cloneNode(true);
+                
+                // Clear input values in the new entry
+                template.querySelectorAll('input, textarea').forEach(input => {
+                    if (input.type !== 'checkbox') {
+                        input.value = '';
+                    } else {
+                        input.checked = false;
+                    }
+                });
+                
+                container.appendChild(template);
+                
+                // Scroll to the new entry on mobile
+                if (window.innerWidth < 640) {
+                    template.scrollIntoView({behavior: 'smooth'});
+                }
+            });
+            
+            // Add technical skill
+            document.getElementById('addTechnicalSkill').addEventListener('click', function() {
+                const input = document.getElementById('technicalSkillInput');
+                const skill = input.value.trim();
+                
+                if (skill) {
+                    const container = document.getElementById('technicalSkillsContainer');
+                    const tag = createSkillTag(skill, 'technical');
+                    container.appendChild(tag);
+                    input.value = '';
+                }
+            });
+            
+            // Add soft skill
+            document.getElementById('addSoftSkill').addEventListener('click', function() {
+                const input = document.getElementById('softSkillInput');
+                const skill = input.value.trim();
+                
+                if (skill) {
+                    const container = document.getElementById('softSkillsContainer');
+                    const tag = createSkillTag(skill, 'soft');
+                    container.appendChild(tag);
+                    input.value = '';
+                }
+            });
+            
+            // Add language
+            document.getElementById('addLanguage').addEventListener('click', function() {
+                const input = document.getElementById('languageInput');
+                const language = input.value.trim();
+                
+                if (language) {
+                    const container = document.getElementById('languagesContainer');
+                    const tag = createLanguageTag(language);
+                    container.appendChild(tag);
+                    input.value = '';
+                }
+            });
+            
+            // Allow adding skills/languages with Enter key
+            document.getElementById('technicalSkillInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    document.getElementById('addTechnicalSkill').click();
+                }
+            });
+            
+            document.getElementById('softSkillInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    document.getElementById('addSoftSkill').click();
+                }
+            });
+            
+            document.getElementById('languageInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    document.getElementById('addLanguage').click();
+                }
+            });
+            
+            // Create a skill tag element
+            function createSkillTag(skill, type) {
+                const tag = document.createElement('div');
+                tag.className = 'skill-tag flex items-center bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm';
+                
+                const span = document.createElement('span');
+                span.textContent = skill;
+                
+                const removeBtn = document.createElement('button');
+                removeBtn.className = 'ml-2 text-blue-600 hover:text-blue-800';
+                removeBtn.innerHTML = '&times;';
+                removeBtn.addEventListener('click', function() {
+                    tag.remove();
+                });
+                
+                tag.appendChild(span);
+                tag.appendChild(removeBtn);
+                
+                return tag;
+            }
+            
+            // Create a language tag element
+            function createLanguageTag(language) {
+                const tag = document.createElement('div');
+                tag.className = 'language-tag flex items-center bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm';
+                
+                const span = document.createElement('span');
+                span.textContent = language;
+                
+                const removeBtn = document.createElement('button');
+                removeBtn.className = 'ml-2 text-green-600 hover:text-green-800';
+                removeBtn.innerHTML = '&times;';
+                removeBtn.addEventListener('click', function() {
+                    tag.remove();
+                });
+                
+                tag.appendChild(span);
+                tag.appendChild(removeBtn);
+                
+                return tag;
+            }
+        });
+    </script>
+</body>
+</html>
